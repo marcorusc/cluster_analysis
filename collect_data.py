@@ -13,8 +13,8 @@ print("USING: ", sys.argv[1])
 title = sys.argv[1]
 
 output = "./output"
-github = "/home/marco/Documents/PhD/github/"
-physi_output = "/home/marco/Documents/PhD/github/PhysiBoSS/output/"
+github = "/data/"
+physi_output = "/PhysiBoSS/output/"
 
 list_of_file = []
 list_of_svg = []

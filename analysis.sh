@@ -2,11 +2,11 @@
 
 values=(0.001 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1)
 
-physi_folder=$HOME"/Documents/PhD/github/PhysiBoSS"
+physi_folder=$HOME"/PhysiBoSS"
 
 config_folder=$physi_folder"/config/"
 
-script_folder=$HOME"/Documents/PhD/github/Cluster_analysis/"
+script_folder=$HOME"/data/Cluster_analysis/"
 
 config_file=$config_folder"PhysiCell_settings_2D.xml"
 

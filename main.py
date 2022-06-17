@@ -14,7 +14,7 @@ print("USING: ", sys.argv[1])
 
 file = sys.argv[1]
 
-github = "/home/marco/Documents/PhD/github/"
+github = "/data/"
 
 file_csv = github + file + 'data.csv'
 
