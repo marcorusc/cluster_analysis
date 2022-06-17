@@ -23,7 +23,6 @@ do
   ./Invasion_model $config_file 
   cd $script_folder
   python collect_data.py "$f"
-  python main.py "$f"
   done
  sed -i '286s/'"$f"'/0/' $config_file
 done

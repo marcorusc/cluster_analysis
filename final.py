@@ -6,7 +6,7 @@ import os
 import seaborn as sb
 import sys
 
-github = "/home/marco/Documents/PhD/github/"
+github = "./data/"
 
 
 
