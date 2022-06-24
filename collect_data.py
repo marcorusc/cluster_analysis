@@ -8,13 +8,20 @@ if len(sys.argv) < 2:
     print("Please specify name for the output")
     sys.exit(1)
 
+if len(sys.argv) < 2:
+    print("Please specify name for the output folder")
+    sys.exit(1)
+
 print("USING: ", sys.argv[1])
 
 title = sys.argv[1]
+folder = sys.argv[2]
+
+home = os.path.expanduser('~')
 
 output = "./output"
-github = "/data/"
-physi_output = "/PhysiBoSS/output/"
+data = home + "/data/" + folder + "/"
+physi_output = home + "/PhysiBoSS/output/"
 
 list_of_file = []
 list_of_svg = []
@@ -53,7 +60,7 @@ data = {'single': single, 'cluster': double}
 
 df = pd.DataFrame(data)
 
-file_csv = github + title + 'data.csv'
+file_csv = data + title + 'data.csv'
 
 if os.path.exists(file_csv):
     old_data = pd.read_csv(file_csv)
