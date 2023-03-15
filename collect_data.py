@@ -20,7 +20,7 @@ folder = sys.argv[2]
 home = os.path.expanduser('~')
 
 output = "./output"
-data = home + "/data/" + folder + "/"
+data_folder = home + "/data/" + folder + "/"
 physi_output = home + "/PhysiBoSS/output/"
 
 list_of_file = []
@@ -39,7 +39,8 @@ list_of_svg.sort()
 
 single = []
 double = []
-
+ratio = []
+cell_in_cluster = []
 
 for file in list_of_file:
     path = physi_output + file
@@ -52,15 +53,18 @@ for file in list_of_file:
     # F = create_graph(net_df, ' neighID180')
     comp_x = utils.count_component(I)[0]
     comp_y = utils.count_component(I)[1]
-
+    comp_z = utils.count_cell_in_cluster(I)[0]
+    comp_w = utils.count_cell_in_cluster(I)[1]
     single.append(comp_x)
     double.append(comp_y)
+    ratio.append(comp_z)
+    cell_in_cluster.append(comp_w)
 
-data = {'single': single, 'cluster': double}
+data = {'single': single, 'cluster': double, 'total_cell_in_cluster': cell_in_cluster, 'cell_ratio': ratio}
 
 df = pd.DataFrame(data)
 
-file_csv = data + title + 'data.csv'
+file_csv = data_folder + title + 'data.csv'
 
 if os.path.exists(file_csv):
     old_data = pd.read_csv(file_csv)

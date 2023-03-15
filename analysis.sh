@@ -4,11 +4,9 @@ physi_folder=$HOME"/PhysiBoSS"
 
 config_folder=$physi_folder"/config/"
 
-script_folder=$HOME"/data/Cluster_analysis/"
+script_folder=$HOME"/data/cluster_analysis/"
 
 config_file=$config_folder"PhysiCell_settings_2D.xml"
-
-cd data
 
 parameter="cell_junction_attach"
 
@@ -26,7 +24,7 @@ do
  do
   echo $f
   cd $physi_folder
-  ./Invasion_model $config_file 
+  ./Invasion_model $config_file
   cd $script_folder
   python3 collect_data.py "$f" "$parameter"
   done
@@ -35,7 +33,7 @@ done
 sed -i '286s/0/0.05/' $config_file
 
 cd $HOME
-cd data
+cd $script_folder
 
 parameter="cell_junction_detach"
 
@@ -53,7 +51,7 @@ do
  do
   echo $f
   cd $physi_folder
-  ./Invasion_model $config_file 
+  ./Invasion_model $config_file
   cd $script_folder
   python3 collect_data.py "$f" "$parameter"
   done
@@ -62,7 +60,7 @@ done
 sed -i '287s/0/0.3/' $config_file
 
 cd $HOME
-cd data
+cd $script_folder
 
 parameter="migration_bias"
 
@@ -80,7 +78,7 @@ do
  do
   echo $f
   cd $physi_folder
-  ./Invasion_model $config_file 
+  ./Invasion_model $config_file
   cd $script_folder
   python3 collect_data.py "$f" "$parameter"
   done
@@ -89,7 +87,7 @@ done
 sed -i '289s/0/0.85/' $config_file
 
 cd $HOME
-cd data
+cd $script_folder
 
 parameter="migration_speed"
 
@@ -107,7 +105,7 @@ do
  do
   echo $f
   cd $physi_folder
-  ./Invasion_model $config_file 
+  ./Invasion_model $config_file
   cd $script_folder
   python3 collect_data.py "$f" "$parameter"
   done
@@ -116,7 +114,8 @@ done
 sed -i '290s/0/0.8/' $config_file
 
 cd $HOME
-cd data
+cd $script_folder
+
 
 parameter="contact_cell_ecm_threshold"
 
@@ -134,7 +133,7 @@ do
  do
   echo $f
   cd $physi_folder
-  ./Invasion_model $config_file 
+  ./Invasion_model $config_file
   cd $script_folder
   python3 collect_data.py "$f" "$parameter"
   done
@@ -143,7 +142,7 @@ done
 sed -i '283s/0/0.05/' $config_file
 
 cd $HOME
-cd data
+cd $script_folder
 
 parameter="contact_cell_cell_threshold"
 
@@ -161,7 +160,7 @@ do
  do
   echo $f
   cd $physi_folder
-  ./Invasion_model $config_file 
+  ./Invasion_model $config_file
   cd $script_folder
   python3 collect_data.py "$f" "$parameter"
   done
@@ -171,7 +170,7 @@ sed -i '285s/0/0.3/' $config_file
 
 
 cd $HOME
-cd data
+cd $script_folder
 
 parameter="cell_ecm_repulsion"
 
@@ -189,7 +188,7 @@ do
  do
   echo $f
   cd $physi_folder
-  ./Invasion_model $config_file 
+  ./Invasion_model $config_file
   cd $script_folder
   python3 collect_data.py "$f" "$parameter"
   done
@@ -198,6 +197,6 @@ done
 sed -i '273s/0/15/' $config_file
 
 cd $HOME
-cd data
+cd $script_folder
 
 echo "FINISH WITH THE SCRIPT"

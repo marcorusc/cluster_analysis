@@ -100,3 +100,19 @@ def count_component(G):
         else:
             cluster = cluster + 1
     return [single, cluster]
+
+def count_cell_in_cluster(G):
+    S = [G.subgraph(c).copy() for c in nx.connected_components(G)]
+    largest_component = max(S, key=len)
+    S.remove(largest_component)
+    size = 0
+    single = 0
+    for net in S:
+        if len(net.nodes()) == 1:
+            single = single + 1
+        else:
+            size = size + len(net.nodes())
+
+    ratio_single_cluster = (size/(size + single)) * 100
+
+    return [ratio_single_cluster, size]
