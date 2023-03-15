@@ -20,8 +20,8 @@ folder = sys.argv[2]
 home = os.path.expanduser('~')
 
 output = "./output"
-data_folder = home + "/data/" + folder + "/"
-physi_output = home + "/PhysiBoSS/output/"
+data_folder = home + "/data/cluster_analysis/" + folder + "/"
+physi_output = home + "/PhysiBoSS/output_" + folder + "/"
 
 list_of_file = []
 list_of_svg = []
@@ -72,4 +72,3 @@ if os.path.exists(file_csv):
     new_data.to_csv(file_csv, index=False, header=True)
 else:
     df.to_csv(file_csv, index=True, header=True)
-

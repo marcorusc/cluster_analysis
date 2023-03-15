@@ -26,14 +26,14 @@ do
         do
             echo $f
             ./Invasion_model $config_file
+            cd $script_folder
+            python3 collect_data.py "$f" "$parameter" "analysis_$run_size"
+            cd $physi_folder
         done
 
-        cd $script_folder
-        python3 collect_data.py "$f" "$parameter" "analysis_$run_size"
         sed -i '255s/'"$f"'/0/' $config_file
     done
 
-    sed -i '255s/'"$run_size"'/10/' $config_file # reset "max_time" to 10
 done
 
 cd $HOME
