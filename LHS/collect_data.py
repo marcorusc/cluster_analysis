@@ -4,18 +4,13 @@ import sys
 import os
 import utils
 
-if len(sys.argv) < 2:
-    print("Please specify name for the output")
-    sys.exit(1)
-
-print("USING: ", sys.argv[1])
-
-folder = sys.argv[1]
-
 home = os.path.expanduser('~')
 
-data_folder = home + "/data/cluster_analysis/LHS/" + folder + "/"
-physi_output = home + "/PhysiBoSS/output_" + folder + "/"
+output = "/output/"
+data_folder = home
+physi_output = home + "/Documents/PhD/github/PhysiBoSS/output/"
+
+print(physi_output)
 
 list_of_file = []
 list_of_svg = []
@@ -28,7 +23,6 @@ for file in os.listdir(physi_output):
         list_of_svg.append(file)
 
 list_of_file.sort()
-list_of_file.remove(list_of_file[0])
 list_of_svg.sort()
 
 single = []
@@ -57,12 +51,12 @@ for file in list_of_file:
 data = {'single': single, 'cluster': double, 'total_cell_in_cluster': cell_in_cluster, 'cell_ratio': ratio}
 
 df = pd.DataFrame(data)
-df = df.iloc[[-1]]
-file_csv = data_folder + 'data.csv'
+
+file_csv = 'data.csv'
 
 if os.path.exists(file_csv):
     old_data = pd.read_csv(file_csv)
-    new_data = pd.concat([old_data, df], axis=0, ignore_index=True)
+    new_data = pd.concat([old_data, df], axis=1)
     new_data.to_csv(file_csv, index=False, header=True)
 else:
-    df.to_csv(file_csv, index=False, header=True)
+    df.to_csv(file_csv, index=True, header=True)

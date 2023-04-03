@@ -62,7 +62,7 @@ for file in os.listdir(github):
         mode = [i for i in
                 data]  # collect all the modes (single, collectiv eetc...) from a single file. The number of modes should be as much as the run done for each value.
         mode.remove(mode[0])  # removing the first column which is the timestep in min
-        elems = [i for i in data.iloc[-1]]  # here I am taking the last values of the file
+        elems = [i for i in data.iloc[3]]  # here I am taking the last values of the file
         elems.remove(elems[0])  # here I am collecting the count (number of cells or ratio) for each mode
         value = float(file[:-8])  # from the file name I am taking the value assigned to the parameter I am analysing
         values = [value] * len(elems)
@@ -75,6 +75,34 @@ for file in os.listdir(github):
 # sb.set(font_scale = 2)
 # sea.map(sb.boxplot, "value", "count")
 
+# Calculate the CV for each value and replicate
+cv = df.groupby(['mode', 'value'])['count'].apply(lambda x: np.std(x) / np.mean(x)).reset_index(name='cv')
+
+# cv.to_csv('cv_100.csv', index=False) TO USE TO CREATE THE CSV FILE TO PLOT WITH CV_PLOT.PY
+
+# Loop over each mode and create a separate plot for each mode
+for mode in df['mode'].unique():
+    # Get the CV data for the current mode
+    mode_cv = cv[cv['mode'] == mode]
+
+    # Calculate the mean and standard deviation of the CV for each value
+    mean_cv = mode_cv.groupby('value')['cv'].mean()
+    std_cv = mode_cv.groupby('value')['cv'].std()
+
+    # Create the plot with error bars representing the CV for each value
+    plt.errorbar(mean_cv.index, mean_cv.values, yerr=std_cv.values, fmt='-o', label=mode)
+
+    # Add axis labels and title
+    plt.xlabel('Value')
+    plt.ylabel('Coefficient of Variation (CV)')
+    plt.title('CV for mode: {}'.format(mode))
+
+    # Add legend
+    plt.legend()
+
+    # Show the plot
+    plt.show()
+
 df_mode1 = df[df["mode"] == "single"]
 df_mode2 = df[df["mode"] == "cluster"]
 df_mode3 = df[df["mode"] == "total_cell_in_cluster"]
@@ -86,13 +114,13 @@ mean_values = grouped['count'].mean().reset_index()
 std_values = grouped['count'].std().reset_index()
 
 df_error = pd.merge(mean_values, std_values, on="value", suffixes=("_mean", "_std"))
-
+print(df_error)
 error_values = df_error["count_std"] / np.sqrt(len(df_mode1["value"].unique()))
 
 # Create scatter plot with linear regression line and error bars
-plot = sb.lmplot(x="value", y="count_mean", data=df_error, fit_reg=True, x_estimator=np.mean, height=8.27, aspect=15.7/8.27, scatter_kws={'alpha': 0.5}, line_kws={'color': 'red'})
+plot = sb.lmplot(x="value", y="count", data=df_mode1, fit_reg=True, x_estimator=np.mean, height=8.27, aspect=15.7/8.27, scatter_kws={'alpha': 0.5}, line_kws={'color': 'red'})
 plot.ax.errorbar(df_error["value"], df_error["count_mean"], yerr=error_values, fmt='none', ecolor='black', capsize=3)
-
+#print("ERROR VALUES FOR SINGLE CELLS: ", error_values)
 # Set plot labels
 plt.xlabel("Value")
 plt.ylabel("Count")
@@ -115,7 +143,7 @@ error_values = df_error["count_std"] / np.sqrt(len(df_mode2["value"].unique()))
 # Create scatter plot with linear regression line and error bars
 plot = sb.lmplot(x="value", y="count_mean", data=df_error, fit_reg=True, x_estimator=np.mean, height=8.27, aspect=15.7/8.27, scatter_kws={'alpha': 0.5}, line_kws={'color': 'red'})
 plot.ax.errorbar(df_error["value"], df_error["count_mean"], yerr=error_values, fmt='none', ecolor='black', capsize=3)
-
+#print("ERROR VALUES FOR NUMBER OF CLUSTER: ", error_values)
 # Set plot labels
 plt.xlabel("Value")
 plt.ylabel("Count")
@@ -139,7 +167,7 @@ error_values = df_error["count_std"] / np.sqrt(len(df_mode3["value"].unique()))
 # Create scatter plot with linear regression line and error bars
 plot = sb.lmplot(x="value", y="count_mean", data=df_error, fit_reg=True, x_estimator=np.mean, height=8.27, aspect=15.7/8.27, scatter_kws={'alpha': 0.5}, line_kws={'color': 'red'})
 plot.ax.errorbar(df_error["value"], df_error["count_mean"], yerr=error_values, fmt='none', ecolor='black', capsize=3)
-
+#print("ERROR VALUES FOR NUMBER OF CELLS IN CLUSTER: ", error_values)
 # Set plot labels
 plt.xlabel("Value")
 plt.ylabel("Count")
@@ -174,3 +202,7 @@ plot.set_xticklabels(plot.ax.get_xticklabels(), rotation=75, horizontalalignment
 plot.fig.suptitle("percentage_cluster", fontsize=12)
 #plt.tight_layout()
 plt.show()
+
+plt.figure(figsize=(20, 15))
+ax = sb.boxplot(x="value", y="count", hue="mode", data=df.loc[df["mode"] != "percentage_cluster"])
+ax.figure.savefig("final_plot.png")
