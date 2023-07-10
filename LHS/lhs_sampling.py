@@ -5,7 +5,7 @@ import numpy as np
 
 # Define the number of samples and parameters
 num_samples = int(sys.argv[1])
-num_params = 7
+num_params = 8
 
 # Define the ranges for each parameter
 param_ranges = {
@@ -15,13 +15,14 @@ param_ranges = {
     'cell_junctions_attach_threshold': [0, 1],
     'cell_junctions_detach_threshold': [0, 1],
     'migration_bias': [0, 1],
-    'migration_speed': [0, 1]
+    'migration_speed': [0, 1],
+    'persistence': [0, 100]
 }
 
 problem = {
-    'num_vars': 7,
+    'num_vars': 8,
     'names': list(param_ranges.keys()),
-    'bounds': [[0, 75], [0, 2], [0, 3.5], [0, 1], [0, 1], [0, 1], [0, 1]]
+    'bounds': [[0, 75], [0, 2], [0, 3.5], [0, 1], [0, 1], [0, 1], [0, 1], [0, 100]]
 }
 
 # Generate the Latin hypercube samples

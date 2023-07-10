@@ -18,7 +18,7 @@ root = tree.getroot()
 
 # Define a dictionary mapping parameter names to the indices of the corresponding columns in the LHS data
 param_names = {"cell_ecm_repulsion": 0, "contact_cell_ECM_threshold": 1, "contact_cell_cell_threshold": 2, "cell_junctions_attach_threshold": 3,
-               "cell_junctions_detach_threshold": 4, "migration_bias": 5, "migration_speed": 6}
+               "cell_junctions_detach_threshold": 4, "migration_bias": 5, "migration_speed": 6, "persistence":7}
 
 # Loop over each iteration in the LHS data
 for i, lhs_iteration in enumerate(lhs_data):
